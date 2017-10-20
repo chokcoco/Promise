@@ -11,17 +11,18 @@ class Promise {
 
         // pending, fulfilled, rejected
         this.state = 'pending';
+        this.value = null;
 
         this.onFulfilled = null;
         this.onRejected = null;
         this.thenPromise = null;
 
         if(fn && typeof fn === 'function') {
-            let res = this.resolve.bind(this);
-            let rej = this.reject.bind(this);
+            let resolve = this.resolve.bind(this);
+            let reject = this.reject.bind(this);
 
             try {
-                fn(res, rej);
+                fn(resolve, reject);
             } catch(e) {
                 this.reject(e);
             }
@@ -39,7 +40,7 @@ class Promise {
         } else {
             // state change
             this.state = 'fulfilled';
-
+            this.value = obj;
 
         }
 
@@ -50,7 +51,35 @@ class Promise {
     }
 
     then(onFulfilled, onRejected) {
+        // 每次调用 then 都会返回一个新创建的 promise 对象
+        let nextPromise = new Promise();
+        this.nextPromise = nextPromise;
 
+        onFulfilled !== 'function' ? null : onFulfilled;
+        onRejected !== 'function' ? null : onRejected;
+
+        if(!onFulfilled && !onRejected) {
+            return nextPromise;
+        }
+
+        this.onFulfilled = onFulfilled ? onFulfilled : null;
+        this.onRejected = onRejected ? onRejected : null;
+        
+        if(this.state === 'fulfilled') {
+            // Promise 只能使用异步调用方式
+            setTimeout(() => {
+                try {
+
+                } catch(e) {
+
+                }
+            });
+        } else if(this.state === 'rejected') {
+
+        }
+
+
+        return nextPromise;
     }
 
     /**
