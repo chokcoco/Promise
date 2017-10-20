@@ -17,13 +17,13 @@ class Promise {
         this.onRejected = null;
         this.thenPromise = null;
 
-        if(fn && typeof fn === 'function') {
+        if (fn && typeof fn === 'function') {
             let resolve = this.resolve.bind(this);
             let reject = this.reject.bind(this);
 
             try {
                 fn(resolve, reject);
-            } catch(e) {
+            } catch (e) {
                 this.reject(e);
             }
         }
@@ -31,12 +31,12 @@ class Promise {
 
     resolve(obj) {
         // only pending -> resolve
-        if(this.state !== 'pending') {
+        if (this.state !== 'pending') {
             return;
         }
 
-        if(obj instanceof Promise) {
-            
+        if (obj instanceof Promise) {
+
         } else {
             // state change
             this.state = 'fulfilled';
@@ -58,23 +58,23 @@ class Promise {
         onFulfilled !== 'function' ? null : onFulfilled;
         onRejected !== 'function' ? null : onRejected;
 
-        if(!onFulfilled && !onRejected) {
+        if (!onFulfilled && !onRejected) {
             return nextPromise;
         }
 
         this.onFulfilled = onFulfilled ? onFulfilled : null;
         this.onRejected = onRejected ? onRejected : null;
-        
-        if(this.state === 'fulfilled') {
+
+        if (this.state === 'fulfilled') {
             // Promise 只能使用异步调用方式
             setTimeout(() => {
                 try {
 
-                } catch(e) {
+                } catch (e) {
 
                 }
             });
-        } else if(this.state === 'rejected') {
+        } else if (this.state === 'rejected') {
 
         }
 
