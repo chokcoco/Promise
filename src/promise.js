@@ -12,6 +12,7 @@ class Promise {
             return;
         }
 
+        // resolve 的结果是一个 Promise 对象
         if (value instanceof Promise) {
             // Promise 可以一直触发 then 的原因
             value.then(val => {
@@ -178,3 +179,5 @@ class Promise {
 
     }
 }
+
+module.exports = Promise;
