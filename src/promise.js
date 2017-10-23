@@ -3,7 +3,7 @@
  */
 class Promise {
     /**
-     * 最终的执行器
+     * 链式调用执行器
      * @param {*} promise 
      * @param {*} value 
      */
@@ -29,7 +29,6 @@ class Promise {
      * @param {Functiuon} fn 
      */
     constructor(fn) {
-
         // pending, fulfilled, rejected
         this.state = 'pending';
         this.value = null;
