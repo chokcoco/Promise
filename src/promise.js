@@ -170,14 +170,6 @@ class Promise {
 
         return nextPromise;
     }
-
-    /**
-     * 接收一个 promise 对象的数组作为参数，当这个数组里的所有 promise 对象全部变为 resolve 或 reject 状态的时候，才会去调用 .then 方法
-     * @param {Array} promiseObjArr 
-     */
-    all(promiseObjArr) {
-
-    }
 }
 
 module.exports = Promise;
