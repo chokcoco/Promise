@@ -69,6 +69,8 @@ promise.then(onFulfilled, onRejected)
 
 + promise.race 
 
+> promise.catch / promise.all / promise.race 非 promise/A+ 规范要求，通常为各个库函数各自补充添加
+
 
 ### 构造函数
 
