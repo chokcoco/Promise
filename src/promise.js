@@ -189,5 +189,5 @@ class Promise {
     }
 }
 
-window.Promise = Promise;
 // module.exports = Promise;
+window.Promise = Promise;
