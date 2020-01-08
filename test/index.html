@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <title>chokcoco/Promise: ES6 Promise</title>
+</head>
+
+<body>
+
+<script src="../src/promise.js" type="application/javascript"></script>
+<script type="application/javascript">
+    console.log('Test');
+
+    const promise = new Promise((resolve, reject) => {
+        resolve('123');
+    });
+
+    const promise2 = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({number: 1});
+        }, 2000);
+    });
+
+    const promise3 = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            reject({number: 2});
+        }, 2000);
+    });
+
+    promise.then(data => {
+        console.log('data', data);
+    });
+
+    promise2.then(data => {
+        console.log('data', data);
+    });
+
+    promise3.then(data => {
+        console.log('data', data);
+    }, err => {
+        console.log('err', err);
+    }).catch(e => {
+        console.log('e', e);
+    })
+</script>
+</body>
+</html>

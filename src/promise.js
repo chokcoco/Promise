@@ -32,17 +32,28 @@ class Promise {
     constructor(fn) {
         // pending, fulfilled, rejected
         this.state = 'pending';
+
+        // 当前 Promise 的 value
         this.value = null;
+
+        // 异常
         this.err = null;
 
+
+        // resolve 的回调
         this.onFulfilled = null;
+        // reject 的回调
         this.onRejected = null;
+        // 链式回调
         this.nextPromise = null;
 
         if (fn && typeof fn === 'function') {
+
+            // 定义 resolve 、reject
             let resolve = this.resolve.bind(this);
             let reject = this.reject.bind(this);
 
+            // 考虑到执行 fn 的过程中有可能出错，所以我们用 try/catch 块给包起来，并且在出错后以 catch 到的值传入 reject 
             try {
                 fn(resolve, reject);
             } catch (e) {
@@ -77,6 +88,8 @@ class Promise {
             setTimeout(() => {
                 try {
                     // 查询是否已经注册 onFulfilled 回调，如已注册，传入参数，调起执行
+                    // 这里 this.onFulfilled 需要注意，是通过 then 方法的 Promise.then(onFulfilled => {}, onRejected => {}) 获取
+                    // 考虑下面的 then() 执行 resolve/reject时， onFulfilled/onRejected 可能被注册也可能还未注册
                     let value = this.onFulfilled ? this.onFulfilled(this.value) : this.value;
 
                     // 当前 promise 执行完，链式执行下一个 promise
@@ -106,7 +119,7 @@ class Promise {
             if (this.onRejected) {
 
                 try {
-                    let value = this.onRejected(this.reason);
+                    let value = this.onRejected(this.err);
 
                     // 当前 promise 执行完，链式执行下一个 promise
                     Promise.execute(this.nextPromise, value);
@@ -115,7 +128,7 @@ class Promise {
                 }
             } else {
                 // 没有注册错误回调，则错误冒泡，传给下一个promise
-                this.nextPromise.reject(this.reason);
+                this.nextPromise.reject(this.err);
             }
         })
     }
@@ -155,7 +168,7 @@ class Promise {
             if (this.onRejected) {
 
                 try {
-                    let value = this.onRejected(this.reason);
+                    let value = this.onRejected(this.err);
 
                     // 当前 promise 执行完，链式执行下一个 promise
                     Promise.execute(this.nextPromise, value);
@@ -164,12 +177,17 @@ class Promise {
                 }
             } else {
                 // 没有注册错误回调，则错误冒泡，传给下一个promise
-                this.nextPromise.reject(this.reason);
+                this.nextPromise.reject(this.err);
             }
         }
 
         return nextPromise;
     }
+
+    catch(onRejected) {
+        return this.then(null, onRejected);
+    }
 }
 
-module.exports = Promise;
+window.Promise = Promise;
+// module.exports = Promise;
