@@ -4,6 +4,9 @@
 class Promise {
     /**
      * 链式调用执行器
+     * 1. then 方法可以返回普通值，也可以返回一个 Promise 对象
+     * 2. 如果 then 方法返回的是一个 Promise 对象，则会根据这个 Promise 对象里执行的是 resolve 还是 reject 走后一个 then 方法的成功和失败回调
+     * 3. 如果 then 方法返回的是一个普通值（无论走的成功还是失败），那么这个普通值就会被当做下一个 then 里成功回调函数的参数
      * @param {*} promise 
      * @param {*} value 
      */

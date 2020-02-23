@@ -42,6 +42,31 @@
     }).catch(e => {
         console.log('e', e);
     })
+
+    // ----- 测试链式调用
+    const promise4 = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({number: 99});
+        }, 2000);
+    });
+
+    promise4.then((data) => {
+        console.log('promise4 then', data);
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject('Error');
+            });
+        })
+    })
+    .then((data) => {
+        console.log('promise4 resolve', data);
+    }, (err) => {
+        console.log('promise4 Err', err);
+    })
+    .then((data) => {
+        console.log('done');
+    })
+
 </script>
 </body>
 </html>
